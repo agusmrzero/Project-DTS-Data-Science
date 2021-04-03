@@ -1,0 +1,29 @@
+#memanggil library "readxl" untuk membaca data dari excell
+library(readxl)
+dataGempa <- read_excel("D:/Diklat pengolahan data audit/tableu/Gempa2.xlsx", 
+                        sheet = "datag")
+#melihat dataGempa
+dataGempa
+
+#melihat struktur dataGempa
+str(dataGempa)
+
+#mengambil nama kolom
+colnames(dataGempa)
+#merubah nama kolom berdasarkan index
+names(dataGempa)[1] <- "tanggalGempa"
+str(dataGempa)
+
+#merubah kolom tanggalGempa dari karakter menjadi tanggal
+dataGempa$tanggalGempa <- as.Date(dataGempa$tanggalGempa)
+str(dataGempa)
+#membuat kanvas dengan tanggalGempa sebagai sumbu X
+plotGempa <- ggplot(data = dataGempa, aes(x=tanggalGempa)) + labs(
+  x="Tanggal", y="Frekuensi")
+#membuat line chart dengan warna chart merah
+plotGempa <- plotGempa + geom_line(stat = "count", colour="red")
+#menambahkan judul
+plotGempa <- plotGempa + ggtitle(
+  "Frekuensi Gempa Bumi di Indonesia", 
+  subtitle = "Periode 1 Jan 2018 sd 31 Jan 2019")
+plotGempa
